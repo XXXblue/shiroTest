@@ -46,7 +46,6 @@ public class Test {
         }
         return "成功";
     }
-
     @RequestMapping(value = "bb.page")
     @RequiresPermissions({"user:bb"})
     public ModelAndView bb(){

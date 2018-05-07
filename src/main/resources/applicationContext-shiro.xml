@@ -41,7 +41,7 @@
         <property name="credentialsMatcher">
             <bean class="org.apache.shiro.authc.credential.HashedCredentialsMatcher">
                 <property name="hashAlgorithmName" value="MD5"></property>
-                <property name="hashIterations" value="1024"></property>
+                <property name="hashIterations" value="1"></property>
             </bean>
         </property>
     </bean>
@@ -49,8 +49,19 @@
 
     <!-- 第一步========安全管理器 -->
     <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
+        <!--自定义的realm-->
         <property name="realm" ref="customRealm"/>
+        <!--自定义的sessionManager-->
+        <property name="sessionManager" ref="sessionManager"/>
+        <property name="cacheManager" ref="cacheManager"/>
     </bean>
 
 
+    <!--这里用的是自定义的CustomSessionManager修改了部分源码-->
+    <bean class="com.ManagerExtends.CustomSessionManager" id ="sessionManager">
+        <property name="sessionDAO" ref="redisSessionDao"/>
+    </bean>
+    <bean class="com.redis.RedisSessionDao" id="redisSessionDao"/>
+
+    <bean class="com.cache.RedisCacheManager" id="cacheManager"/>
 </beans>
