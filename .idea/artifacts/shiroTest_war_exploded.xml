@@ -23,12 +23,12 @@
           <element id="library" level="project" name="Maven: org.thymeleaf:thymeleaf:3.0.2.RELEASE" />
           <element id="library" level="project" name="Maven: org.attoparser:attoparser:2.0.1.RELEASE" />
           <element id="library" level="project" name="Maven: org.unbescape:unbescape:1.1.4.RELEASE" />
-          <element id="library" level="project" name="Maven: org.apache.shiro:shiro-core:1.2.2" />
+          <element id="library" level="project" name="Maven: org.apache.shiro:shiro-core:1.2.3" />
           <element id="library" level="project" name="Maven: commons-beanutils:commons-beanutils:1.8.3" />
-          <element id="library" level="project" name="Maven: org.apache.shiro:shiro-ehcache:1.2.2" />
+          <element id="library" level="project" name="Maven: org.apache.shiro:shiro-ehcache:1.2.3" />
           <element id="library" level="project" name="Maven: net.sf.ehcache:ehcache-core:2.5.0" />
-          <element id="library" level="project" name="Maven: org.apache.shiro:shiro-web:1.2.2" />
-          <element id="library" level="project" name="Maven: org.apache.shiro:shiro-spring:1.2.2" />
+          <element id="library" level="project" name="Maven: org.apache.shiro:shiro-web:1.2.3" />
+          <element id="library" level="project" name="Maven: org.apache.shiro:shiro-spring:1.2.3" />
           <element id="library" level="project" name="Maven: org.apache.tomcat:jsp-api:6.0.36" />
           <element id="library" level="project" name="Maven: org.apache.tomcat:el-api:6.0.36" />
           <element id="library" level="project" name="Maven: org.apache.tomcat:servlet-api:6.0.36" />

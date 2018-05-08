@@ -2,9 +2,10 @@ package com.test;
 
 import com.pojo.User;
 import org.apache.shiro.SecurityUtils;
-import org.apache.shiro.authc.AuthenticationException;
-import org.apache.shiro.authc.UsernamePasswordToken;
+import org.apache.shiro.authc.*;
 import org.apache.shiro.authz.annotation.RequiresPermissions;
+import org.apache.shiro.subject.PrincipalCollection;
+import org.apache.shiro.subject.SimplePrincipalCollection;
 import org.apache.shiro.subject.Subject;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
@@ -31,6 +32,8 @@ public class Test {
     @RequiresPermissions({"user:aa"})
     public ModelAndView aa(){
         ModelAndView mv =new ModelAndView("aa");
+        User user = (User) SecurityUtils.getSubject().getPrincipal();
+        mv.addObject("name",user.getUserName());
         return mv;
     }
 
@@ -41,8 +44,15 @@ public class Test {
         UsernamePasswordToken token =new UsernamePasswordToken(user.getUserName(),user.getPassword());
         try{
             subject.login(token);
-        }catch(AuthenticationException e){
-            return e.getMessage();
+        }catch(IncorrectCredentialsException ice){
+            // 捕获密码错误异常
+            return ice.getMessage();
+        }catch (UnknownAccountException uae) {
+            // 捕获未知用户名异常
+            return uae.getMessage();
+        }catch (ExcessiveAttemptsException eae) {
+            // 捕获错误登录过多的异常
+            return eae.getMessage();
         }
         return "成功";
     }

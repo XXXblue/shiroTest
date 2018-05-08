@@ -41,7 +41,8 @@ public class CustomRealm extends AuthorizingRealm{
 //            throw new IncorrectCredentialsException("密码错误！！！");
 //        }
         //返回认证信息，在返回的里面进行进行密码的比对,你只要传数据库的密文就行了，用户输入的在token中它自己会找，只有通过这样才能使内置加密算法生效，上面的不行
-        return new SimpleAuthenticationInfo(user.getUserName(), // 用户名
+
+        return new SimpleAuthenticationInfo(user, // 用户名
                 user.getPassword(), // 密码
                 "CustomRealm" // realm name
         );
@@ -52,7 +53,6 @@ public class CustomRealm extends AuthorizingRealm{
 //授权
     protected AuthorizationInfo doGetAuthorizationInfo(
             PrincipalCollection principals) {
-        //在这里获取的你的拦截信息，这里用缓存可以很大的提高效率，还在钻研中。。。
         log.info("从数据库中获取授权数据");
         SimpleAuthorizationInfo authorizationInfo = new SimpleAuthorizationInfo();
         List<String>permissionList = new ArrayList<String>();

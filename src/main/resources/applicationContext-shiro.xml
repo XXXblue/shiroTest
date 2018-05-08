@@ -60,8 +60,14 @@
     <!--这里用的是自定义的CustomSessionManager修改了部分源码-->
     <bean class="com.ManagerExtends.CustomSessionManager" id ="sessionManager">
         <property name="sessionDAO" ref="redisSessionDao"/>
+        <property name="sessionIdCookie" ref="simpleCookie"/>
     </bean>
     <bean class="com.redis.RedisSessionDao" id="redisSessionDao"/>
 
     <bean class="com.cache.RedisCacheManager" id="cacheManager"/>
+
+    <bean id="simpleCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
+        <constructor-arg name="name" value="shiro.sesssion"/>
+        <property name="path" value="/"/>
+    </bean>
 </beans>
