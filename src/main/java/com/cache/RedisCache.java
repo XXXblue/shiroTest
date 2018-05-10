@@ -34,6 +34,13 @@ public class RedisCache<K,V> implements Cache<K,V> {
             return (CACHE_PREFIX+k.toString()).getBytes();
         }
     }
+    private byte[] getKey(K k,String prefix){
+        if(k instanceof String){
+            return (prefix+k).getBytes();
+        }else{
+            return (prefix+k.toString()).getBytes();
+        }
+    }
 
     @Override
     public V get(K k) throws CacheException {
@@ -58,6 +65,34 @@ public class RedisCache<K,V> implements Cache<K,V> {
     @Override
     public V remove(K k) throws CacheException {
         byte[] key = getKey(k);
+        byte[] value = jedisUtils.get(key);
+        jedisUtils.del(key);
+        if(value != null){
+            return (V) SerializationUtils.deserialize(value);
+        }
+        return null;
+    }
+
+    public V get(K k,String prefix) throws CacheException {
+        log.info("从缓存中获取授权数据");
+        //在这个地方其实还可以加上本地的二级缓存，如果本地有没必要跑到redis中去取，进一步提升效率
+        byte[] value = jedisUtils.get(getKey(k,prefix));
+        if(value!=null){
+            return (V) SerializationUtils.deserialize(value);
+        }
+        return null;
+    }
+
+    public V put(K k, V v,String prefix) throws CacheException {
+        byte[] key = getKey(k,prefix);
+        byte[] value = SerializationUtils.serialize(v);
+        jedisUtils.set(key,value);
+        jedisUtils.expire(key,600);
+        return v;
+    }
+
+    public V remove(K k,String prefix) throws CacheException {
+        byte[] key = getKey(k,prefix);
         byte[] value = jedisUtils.get(key);
         jedisUtils.del(key);
         if(value != null){

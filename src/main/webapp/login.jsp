@@ -17,6 +17,10 @@
     吗<input id ="1" type="text" name="password">
     <button onclick="submit();">fdaf</button>
     <script type="text/javascript">
+        var _href = window.location.href+"";
+        if(_href && _href.indexOf('?kickout')!=-1) {
+            alert("你的账号在其它地方登陆了");
+        }
         function submit() {
             var userName = $('#0').val();
             var password = $('#1').val();

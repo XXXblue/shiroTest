@@ -32,8 +32,9 @@ public class Test {
     @RequiresPermissions({"user:aa"})
     public ModelAndView aa(){
         ModelAndView mv =new ModelAndView("aa");
-        User user = (User) SecurityUtils.getSubject().getPrincipal();
-        mv.addObject("name",user.getUserName());
+        String result = (String) SecurityUtils.getSubject().getSession().getAttribute("cc");
+        mv.addObject("name",(String)(SecurityUtils.getSubject().getPrincipal()));
+        mv.addObject("result",result);
         return mv;
     }
 
@@ -41,6 +42,10 @@ public class Test {
     @ResponseBody
     public String subLogin(User user){
         Subject subject = SecurityUtils.getSubject();
+        //下面这个玩意可以用来解决验证码的问题
+        SecurityUtils.getSubject().getSession().setAttribute("cc","jfd");
+        //把下面的login放到业务层，返回User用户信息，然后把用户信息存到session中，这个session是shiro的session（由于我们用了redis这个session由redis管理）
+        //这样才能对用户信息做及时更新
         UsernamePasswordToken token =new UsernamePasswordToken(user.getUserName(),user.getPassword());
         try{
             subject.login(token);

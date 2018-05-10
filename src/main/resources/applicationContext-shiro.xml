@@ -20,22 +20,31 @@
                 /login.jsp = anon
                 /subLogin.json = anon
                 /logout = logout
-                /** = authc
+                /** = kickout,authc
             </value>
         </property>
         <!---->
         <property name="filters">
             <util:map>
                 <entry key="logout" value-ref="logoutFilter" />
+                <entry key="kickout" value-ref="kickoutSessionControlFilter"/>
             </util:map>
         </property>
     </bean>
 
+    <!--自定义过滤规则：退出模块-->
     <bean id="logoutFilter" class="org.apache.shiro.web.filter.authc.LogoutFilter">
         <property name="redirectUrl" value="/index.jsp" />
     </bean>
 
-
+    <!--自定义过滤规则：限制并发登录-->
+    <bean id="kickoutSessionControlFilter"  class="com.filter.KickoutSessionControlFilter">
+        <property name="sessionManager" ref="sessionManager"/>
+        <property name="cacheManager" ref="cacheManager"/>
+        <property name="kickoutAfter" value="false"/>
+        <property name="maxSession" value="1"/>
+        <property name="kickoutUrl" value="/login.page?kickout=1"/>
+    </bean>
     <!--加密-->
     <bean id="customRealm" class="com.realm.CustomRealm">
         <property name="credentialsMatcher">
@@ -63,9 +72,11 @@
         <property name="sessionIdCookie" ref="simpleCookie"/>
     </bean>
     <bean class="com.redis.RedisSessionDao" id="redisSessionDao"/>
-
+    <!--认证缓存模块-->
     <bean class="com.cache.RedisCacheManager" id="cacheManager"/>
 
+
+    <!--解决sessionId冲突-->
     <bean id="simpleCookie" class="org.apache.shiro.web.servlet.SimpleCookie">
         <constructor-arg name="name" value="shiro.sesssion"/>
         <property name="path" value="/"/>

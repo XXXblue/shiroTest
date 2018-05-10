@@ -13,5 +13,6 @@
 <body>
 ${name}
 fdasfadfadf
+${result}
 </body>
 </html>

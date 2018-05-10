@@ -19,6 +19,14 @@ public class JedisUtils {
     @Resource
     private JedisPool jedisPool;
 
+    public JedisPool getJedisPool() {
+        return jedisPool;
+    }
+
+    public void setJedisPool(JedisPool jedisPool) {
+        this.jedisPool = jedisPool;
+    }
+
     public Jedis getJedis() {
         return jedisPool.getResource();
     }
@@ -72,4 +80,5 @@ public class JedisUtils {
             close(jedis);
         }
     }
+
 }
